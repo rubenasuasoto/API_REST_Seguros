@@ -7,18 +7,18 @@ import java.util.Date
 data class Seguro(
     @Column(name = "id_seguro")
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idSeguro: Int,
     @Column(nullable = false , length = 10)
     val nif: String,
     @Column(nullable = false , length = 100)
-    val nombre: String,
+    var nombre: String,
     @Column(nullable = false , length = 100)
-    val ape1: String,
+    var ape1: String,
     @Column( length = 100)
     val ape2: String?,
     @Column(nullable = false )
-    val edad: Int,
+    var edad: Int,
     @Column(nullable = false )
     val numHijos: Int,
     @Column(name = "fecha_creacion" , nullable = false)

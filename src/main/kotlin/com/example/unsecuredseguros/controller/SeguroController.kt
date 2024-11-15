@@ -1,36 +1,47 @@
 ﻿package com.example.unsecuredseguros.controller
 import com.example.unsecuredseguros.model.Seguro
 import com.example.unsecuredseguros.service.SeguroService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.*
+
 @RestController
 @RequestMapping("/seguros")
 class SeguroController {
+
+    @Autowired
     private lateinit var seguroService: SeguroService
 
-    fun insert(
-        @RequestBody autornuevo : Seguro
-    ):Seguro?{
-
-
-
-
-        return null
+    // Método para insertar un nuevo seguro
+    @PostMapping
+    fun insert(@RequestBody autornuevo: Seguro): Seguro? {
+        // Delegar al servicio
+        return seguroService.insert(autornuevo)
     }
-    @GetMapping("/{id}") // URI de este metodo -> localhost:8080/auotres/2
-    fun getByID(
-        @PathVariable id:String
-    ):Seguro?{
-        //Comprobacion basica de parametros de entrada
-        if (id.isNullOrEmpty()){
+
+    // Método para obtener un seguro por ID
+    @GetMapping("/{id}")
+    fun getByID(@PathVariable id: String): Seguro? {
+        if (id.isNullOrEmpty()) {
             return null
         }
-        // 2º Comunico el controller con el service
         return seguroService.getById(id)
-
     }
 
+    // Método para actualizar un seguro existente
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: String, @RequestBody seguroActualizado: Seguro): Seguro? {
+        if (id.isNullOrEmpty()) {
+            return null
+        }
+        return seguroService.update(id, seguroActualizado)
+    }
+
+    // Método para eliminar un seguro por ID
+    @DeleteMapping("/{id}")
+    fun deleteByID(@PathVariable id: String): Boolean {
+        if (id.isNullOrEmpty()) {
+            return false
+        }
+        return seguroService.deleteById(id)
+    }
 }
