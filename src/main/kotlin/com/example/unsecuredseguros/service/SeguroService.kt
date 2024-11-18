@@ -1,4 +1,5 @@
 ﻿package com.example.unsecuredseguros.service
+import com.example.unsecuredseguros.excepciones.NotFoundException
 import com.example.unsecuredseguros.model.Seguro
 import com.example.unsecuredseguros.repository.SeguroRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,10 +36,11 @@ class SeguroService {
     fun getById(id: String): Seguro? {
         var idl: Int = 0
         try {
-            idl = id.toInt()
+            idl += id.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
-            return null
+            throw NotFoundException("El seguro con $idl no se ha encontrado ")
+
         }
         return seguroRepository.findByIdOrNull(idl)
     }
